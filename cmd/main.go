@@ -1,24 +1,27 @@
 package main
 
 import (
-	"bigbro/webserver"
+	"github.com/bigbroproject/bigbro/models/data"
+	"github.com/bigbroproject/bigbro/webserver"
+	"github.com/bigbroproject/bigbro/webserver/responsehandler"
 	"github.com/bigbroproject/bigbrocore/core"
-	"github.com/bigbroproject/bigbrocore/protocols"
 	"github.com/bigbroproject/bigbrocore/responsehandlers"
 )
 
 func main() {
 
-	ws := webserver.NewWebServer("config/serverconfig.yml")
+	servicesList := make([]data.ServiceData, 0)
+	servicesListP := &servicesList
+	ws := webserver.NewWebServer("config/serverconfig.yml", &servicesListP)
 	ws.Start()
 
 	regProtocolInterfaces, regResponseHandlerInterfaces := core.Initialize("config/config.yml")
 
-	// Register custom protocol
-	protocols.RegisterProtocolInterface(&regProtocolInterfaces, "ftp", protocols.FTP{})
+	// Register custom protocols
+	//protocols.RegisterProtocolInterface(&regProtocolInterfaces, "ftp", protocols.FTP{})
 
-	// Register custom Response Handler
-	responsehandlers.RegisterResponseHandlerInterface(&regResponseHandlerInterfaces, "consoleWithMemory", responsehandlers.ConsoleHandlerWithMemory{})
+	// Register Response Handlers
+	responsehandlers.RegisterResponseHandlerInterface(&regResponseHandlerInterfaces, "webServerHandler", responsehandler.WebServerRespHandler{ServicesListP: &servicesListP})
 	//responsehandlers.RegisterResponseHandlerInterface(&regResponseHandlerInterfaces, "console", responsehandlers.ConsoleHandler{})
 
 	// Start monitoring

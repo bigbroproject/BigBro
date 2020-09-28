@@ -1,7 +1,9 @@
-package responsehandlers
+package responsehandler
 
 import (
 	"fmt"
+	"github.com/bigbroproject/bigbro/models/data"
+	"github.com/bigbroproject/bigbrocore/models"
 	"github.com/bigbroproject/bigbrocore/models/response"
 	"github.com/fatih/color"
 	"log"
@@ -11,13 +13,38 @@ import (
 
 type WebServerRespHandler struct {
 	ServiceProtocol map[string]response.ResponseType
+	ServicesListP   **[]data.ServiceData
 }
 
-func (handler WebServerRespHandler) Handle(channel *chan response.Response) {
+func (handler WebServerRespHandler) Handle(configuration *models.Config, channel *chan response.Response) {
+
+	loadServices(configuration, handler.ServicesListP)
 	handler.ServiceProtocol = make(map[string]response.ResponseType)
+
 	for {
 		resp := <-*channel
 		printIfChange(resp, &handler)
+	}
+}
+
+func loadServices(configuration *models.Config, servicesListP **[]data.ServiceData) {
+
+	for _, service := range configuration.Services {
+		sAux := data.ServiceData{
+			Name:      service.Name,
+			Err:       nil,
+			Protocols: make([]data.ProtocolData, 0),
+		}
+
+		for _, protocol := range service.Protocols {
+			sAux.Protocols = append(sAux.Protocols, data.ProtocolData{
+				Protocol: protocol,
+				Err:      nil,
+			})
+		}
+
+		sl := append(**servicesListP, sAux)
+		*servicesListP = &sl
 	}
 }
 
