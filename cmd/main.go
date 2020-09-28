@@ -1,7 +1,6 @@
 package main
 
 import (
-	"github.com/bigbroproject/bigbro/models/data"
 	"github.com/bigbroproject/bigbro/webserver"
 	"github.com/bigbroproject/bigbro/webserver/responsehandler"
 	"github.com/bigbroproject/bigbrocore/core"
@@ -10,9 +9,7 @@ import (
 
 func main() {
 
-	servicesList := make([]data.ServiceData, 0)
-	servicesListP := &servicesList
-	ws := webserver.NewWebServer("config/serverconfig.yml", &servicesListP)
+	ws := webserver.NewWebServer("config/serverconfig.yml")
 	ws.Start()
 
 	regProtocolInterfaces, regResponseHandlerInterfaces := core.Initialize("config/config.yml")
@@ -21,8 +18,10 @@ func main() {
 	//protocols.RegisterProtocolInterface(&regProtocolInterfaces, "ftp", protocols.FTP{})
 
 	// Register Response Handlers
-	responsehandlers.RegisterResponseHandlerInterface(&regResponseHandlerInterfaces, "webServerHandler", responsehandler.WebServerRespHandler{ServicesListP: &servicesListP})
-	//responsehandlers.RegisterResponseHandlerInterface(&regResponseHandlerInterfaces, "console", responsehandlers.ConsoleHandler{})
+	responsehandlers.RegisterResponseHandlerInterface(&regResponseHandlerInterfaces, "webServerHandler", responsehandler.WebServerRespHandler{OutputChannel: ws.InputChannel})
+
+	responsehandlers.RegisterResponseHandlerInterface(&regResponseHandlerInterfaces, "console", responsehandlers.ConsoleHandler{})
+	responsehandlers.RegisterResponseHandlerInterface(&regResponseHandlerInterfaces, "consoleMemory", responsehandlers.ConsoleHandlerWithMemory{})
 
 	// Start monitoring
 	core.Start(regProtocolInterfaces, regResponseHandlerInterfaces)
