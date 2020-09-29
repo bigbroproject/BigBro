@@ -21,18 +21,20 @@ func (handler WebServerRespHandler) Handle(configuration *models.Config, channel
 	handler.ServiceProtocol = make(map[string]response.ResponseType)
 
 	for {
-		resp := <-*channel
-		handler.writeResponse(resp)
-		//printIfChange(resp, &handler)
+		select {
+		case resp := <-*channel:
+			handler.writeResponse(resp)
+		}
+
 	}
 }
 
 func (handler WebServerRespHandler) writeResponse(response response.Response) {
 	go func() {
-		log.Println("Inizio")
-		handler.OutputChannel <- response
-		log.Println("Fine")
-
+		select {
+		case handler.OutputChannel <- response:
+			return
+		}
 	}()
 }
 

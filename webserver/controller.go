@@ -56,47 +56,52 @@ func (ws *WebServer) Start() {
 		err := ws.Router.Run(ws.Address + ":" + strconv.Itoa(ws.Port))
 		log.Fatal(err.Error())
 	}()
-	/*
-		go func() {
+
+	go func() {
+		for {
 			ws.listenInputChannel()
-		}()*/
+		}
+	}()
 }
 
 func (ws *WebServer) listenInputChannel() {
-	resp := <-ws.InputChannel
-	if serviceData, exists := (*ws.ServiceMap)[resp.ServiceName]; exists {
-		//service exists
-		protocolExists := false
-		for _, protocolData := range serviceData.Protocols {
-			if protocolData.Protocol.Type == resp.Protocol.Type && protocolData.Protocol.Server == resp.Protocol.Server && protocolData.Protocol.Port == resp.Protocol.Port {
-				protocolData.Err = resp.Error
-				protocolExists = true
+
+	select {
+	case resp := <-ws.InputChannel:
+		if serviceData, exists := (*ws.ServiceMap)[resp.ServiceName]; exists {
+			//service exists
+			protocolExists := false
+			for _, protocolData := range serviceData.Protocols {
+				if protocolData.Protocol.Type == resp.Protocol.Type && protocolData.Protocol.Server == resp.Protocol.Server && protocolData.Protocol.Port == resp.Protocol.Port {
+					protocolData.Err = resp.Error
+					protocolExists = true
+				}
+
 			}
 
-		}
+			if !protocolExists {
+				serviceData.Protocols = append(serviceData.Protocols, data.ProtocolData{
+					Protocol: resp.Protocol,
+					Err:      resp.Error,
+				})
 
-		if !protocolExists {
-			serviceData.Protocols = append(serviceData.Protocols, data.ProtocolData{
+			}
+
+			(*ws.ServiceMap)[resp.ServiceName] = serviceData
+
+		} else {
+			//service does not exist
+			firstProtocol := data.ProtocolData{
 				Protocol: resp.Protocol,
 				Err:      resp.Error,
-			})
-
-		}
-
-		(*ws.ServiceMap)[resp.ServiceName] = serviceData
-
-	} else {
-		//service does not exist
-		firstProtocol := data.ProtocolData{
-			Protocol: resp.Protocol,
-			Err:      resp.Error,
-		}
-		protocolsList := make([]data.ProtocolData, 1)
-		protocolsList[0] = firstProtocol
-		(*ws.ServiceMap)[resp.ServiceName] = data.ServiceData{
-			Name:      resp.ServiceName,
-			Err:       resp.Error,
-			Protocols: protocolsList,
+			}
+			protocolsList := make([]data.ProtocolData, 1)
+			protocolsList[0] = firstProtocol
+			(*ws.ServiceMap)[resp.ServiceName] = data.ServiceData{
+				Name:      resp.ServiceName,
+				Err:       resp.Error,
+				Protocols: protocolsList,
+			}
 		}
 	}
 
