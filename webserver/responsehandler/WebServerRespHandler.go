@@ -1,8 +1,8 @@
 package responsehandler
 
 import (
-	"errors"
 	"fmt"
+	"github.com/bigbroproject/bigbro/models/data"
 	"github.com/bigbroproject/bigbrocore/models"
 	"github.com/bigbroproject/bigbrocore/models/response"
 	"github.com/fatih/color"
@@ -40,21 +40,21 @@ func (handler WebServerRespHandler) writeResponse(response response.Response) {
 }
 
 func (handler WebServerRespHandler) loadServices(configuration *models.Config) {
-
 	for _, service := range configuration.Services {
 
 		for _, protocol := range service.Protocols {
 			resp := response.Response{
 				ServiceName: service.Name,
 				Protocol:    protocol,
-				Error:       errors.New("pending"),
+				Error: data.NewCustomErr("<<pending>>"),
 			}
 			handler.writeResponse(resp)
-
 		}
-
 	}
 }
+
+
+
 
 func printIfChange(resp response.Response, c *WebServerRespHandler) {
 	respType := c.ServiceProtocol[resp.ServiceName+resp.Protocol.Type]

@@ -19,7 +19,6 @@
 
             let errStatus = "";
 
-            console.log(service)
             if(protocolData.Err === "<<pending>>"){
               // pending
               errStatus = "<i class=\"fa fa-circle font-small-3 text-warning mr-50\"></i>Pending"

@@ -116,6 +116,7 @@ func (ws *WebServer) listenInputChannel() {
 }
 
 func getServicesList(context *gin.Context, ws *WebServer) {
+
 	context.JSON(http.StatusOK, ws.ServiceMap)
 }
 
