@@ -1,0 +1,1 @@
+!function(e){"use strict";e("button").click(function(){var t=e(".needs-validation");!1===t[0].checkValidity()&&(event.preventDefault(),event.stopPropagation()),t.addClass("was-validated")})}((window,document,jQuery));
