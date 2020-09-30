@@ -1,17 +1,6 @@
 services:
-  - name: Facebook (ssl)
+  - name: Sito Personale
     protocols:
       - type: https
-        port: 443
-        server: facebook.com
-        interval : 1000
-  - name: Google
-    protocols:
-      - type: http
-        server: google.com
-        interval : 1000
-  - name: Google DNS
-    protocols:
-      - type: icmp
-        server: 8.8.8.8
-        interval : 1000
+        server: federicosantoro.com
+        interval: 2000

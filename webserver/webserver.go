@@ -27,7 +27,9 @@ func NewWebServer(serverConfPath string) *WebServer {
 		log.Fatal(err.Error())
 	}
 	gin.SetMode(gin.ReleaseMode)
-	router := gin.Default()
+	router := gin.New() // gin.Default()
+	//router.Use(gin.Logger())
+	router.Use(gin.Recovery())
 	inputChannel := make(chan response.Response)
 	serviceMap := make(map[string]data.ServiceData, 0)
 
@@ -74,9 +76,12 @@ func (ws *WebServer) listenInputChannel() {
 		if serviceData, exists := (*ws.ServiceMap)[resp.ServiceName]; exists {
 			//service exists
 			protocolExists := false
-			for _, protocolData := range serviceData.Protocols {
+
+			for i := 0; i < len(serviceData.Protocols); i++ {
+				protocolData := &serviceData.Protocols[i]
 				if protocolData.Protocol.Type == resp.Protocol.Type && protocolData.Protocol.Server == resp.Protocol.Server && protocolData.Protocol.Port == resp.Protocol.Port {
 					protocolData.Err = resp.Error
+					//serviceData.Protocols[index] = protocolData
 					protocolExists = true
 				}
 

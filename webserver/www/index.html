@@ -1,1 +1,465 @@
-AJEJE
+<!DOCTYPE html>
+<html class="loading" lang="en" data-textdirection="ltr">
+<!-- BEGIN: Head-->
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimal-ui">
+    <meta name="author" content="fedyfausto">
+    <title>Dashboard BigBro - Monitoring Services tool</title>
+    <link rel="apple-touch-icon" href="app-assets/images/ico/apple-icon-120.png">
+    <link rel="shortcut icon" type="image/x-icon" href="app-assets/images/ico/favicon.ico">
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:300,400,500,600" rel="stylesheet">
+
+    <!-- BEGIN: Vendor CSS-->
+    <link rel="stylesheet" type="text/css" href="app-assets/vendors/css/vendors.min.css">
+    <link rel="stylesheet" type="text/css" href="app-assets/vendors/css/charts/apexcharts.css">
+    <link rel="stylesheet" type="text/css" href="app-assets/vendors/css/extensions/tether-theme-arrows.css">
+    <link rel="stylesheet" type="text/css" href="app-assets/vendors/css/extensions/tether.min.css">
+    <link rel="stylesheet" type="text/css" href="app-assets/vendors/css/extensions/shepherd-theme-default.css">
+    <!-- END: Vendor CSS-->
+
+    <!-- BEGIN: Theme CSS-->
+    <link rel="stylesheet" type="text/css" href="app-assets/css/bootstrap.css">
+    <link rel="stylesheet" type="text/css" href="app-assets/css/bootstrap-extended.css">
+    <link rel="stylesheet" type="text/css" href="app-assets/css/colors.css">
+    <link rel="stylesheet" type="text/css" href="app-assets/css/components.css">
+    <link rel="stylesheet" type="text/css" href="app-assets/css/themes/dark-layout.css">
+    <link rel="stylesheet" type="text/css" href="app-assets/css/themes/semi-dark-layout.css">
+
+    <!-- BEGIN: Page CSS-->
+    <link rel="stylesheet" type="text/css" href="app-assets/css/core/menu/menu-types/horizontal-menu.css">
+    <link rel="stylesheet" type="text/css" href="app-assets/css/core/colors/palette-gradient.css">
+    <link rel="stylesheet" type="text/css" href="app-assets/css/pages/dashboard-analytics.css">
+    <link rel="stylesheet" type="text/css" href="app-assets/css/pages/card-analytics.css">
+    <link rel="stylesheet" type="text/css" href="app-assets/css/plugins/tour/tour.css">
+    <!-- END: Page CSS-->
+
+    <!-- BEGIN: Custom CSS-->
+    <link rel="stylesheet" type="text/css" href="assets/css/style.css">
+    <!-- END: Custom CSS-->
+
+</head>
+<!-- END: Head-->
+
+<!-- BEGIN: Body-->
+
+<body class="horizontal-layout horizontal-menu dark-layout 2-columns  navbar-floating footer-static  " data-open="hover" data-menu="horizontal-menu" data-col="2-columns" data-layout="dark-layout">
+
+    <!-- BEGIN: Header-->
+    <nav class="header-navbar navbar-expand-lg navbar navbar-with-menu navbar-fixed navbar-brand-center">
+        <div class="navbar-header d-xl-block d-none">
+            <ul class="nav navbar-nav flex-row">
+                <li class="nav-item"><a class="navbar-brand" href="html/ltr/horizontal-menu-template-dark/index.html">
+                        <div class="brand-logo"></div>
+                    </a></li>
+            </ul>
+        </div>
+        <div class="navbar-wrapper">
+            <div class="navbar-container content">
+                <div class="navbar-collapse" id="navbar-mobile">
+                    <div class="mr-auto float-left bookmark-wrapper d-flex align-items-center">
+                        <ul class="nav navbar-nav">
+                            <li class="nav-item mobile-menu d-xl-none mr-auto"><a class="nav-link nav-menu-main menu-toggle hidden-xs" href="#"><i class="ficon feather icon-menu"></i></a></li>
+                        </ul>
+                    </div>
+                    <ul class="nav navbar-nav float-right">
+                    
+                        <li class="nav-item d-none d-lg-block"><a class="nav-link nav-link-expand"><i class="ficon feather icon-maximize"></i></a></li>
+
+                      
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </nav>
+    <ul class="main-search-list-defaultlist d-none">
+        <li class="d-flex align-items-center"><a class="pb-25" href="#">
+                <h6 class="text-primary mb-0">Files</h6>
+            </a></li>
+        <li class="auto-suggestion d-flex align-items-center cursor-pointer"><a class="d-flex align-items-center justify-content-between w-100" href="#">
+                <div class="d-flex">
+                    <div class="mr-50"><img src="app-assets/images/icons/xls.png" alt="png" height="32"></div>
+                    <div class="search-data">
+                        <p class="search-data-title mb-0">Two new item submitted</p><small class="text-muted">Marketing Manager</small>
+                    </div>
+                </div><small class="search-data-size mr-50 text-muted">&apos;17kb</small>
+            </a></li>
+        <li class="auto-suggestion d-flex align-items-center cursor-pointer"><a class="d-flex align-items-center justify-content-between w-100" href="#">
+                <div class="d-flex">
+                    <div class="mr-50"><img src="app-assets/images/icons/jpg.png" alt="png" height="32"></div>
+                    <div class="search-data">
+                        <p class="search-data-title mb-0">52 JPG file Generated</p><small class="text-muted">FontEnd Developer</small>
+                    </div>
+                </div><small class="search-data-size mr-50 text-muted">&apos;11kb</small>
+            </a></li>
+        <li class="auto-suggestion d-flex align-items-center cursor-pointer"><a class="d-flex align-items-center justify-content-between w-100" href="#">
+                <div class="d-flex">
+                    <div class="mr-50"><img src="app-assets/images/icons/pdf.png" alt="png" height="32"></div>
+                    <div class="search-data">
+                        <p class="search-data-title mb-0">25 PDF File Uploaded</p><small class="text-muted">Digital Marketing Manager</small>
+                    </div>
+                </div><small class="search-data-size mr-50 text-muted">&apos;150kb</small>
+            </a></li>
+        <li class="auto-suggestion d-flex align-items-center cursor-pointer"><a class="d-flex align-items-center justify-content-between w-100" href="#">
+                <div class="d-flex">
+                    <div class="mr-50"><img src="app-assets/images/icons/doc.png" alt="png" height="32"></div>
+                    <div class="search-data">
+                        <p class="search-data-title mb-0">Anna_Strong</p><small class="text-muted">Web Designer</small>
+                    </div>
+                </div><small class="search-data-size mr-50 text-muted">&apos;256kb</small>
+            </a></li>
+        <li class="d-flex align-items-center"><a class="pb-25" href="#">
+                <h6 class="text-primary mb-0">Members</h6>
+            </a></li>
+        <li class="auto-suggestion d-flex align-items-center cursor-pointer"><a class="d-flex align-items-center justify-content-between py-50 w-100" href="#">
+                <div class="d-flex align-items-center">
+                    <div class="avatar mr-50"><img src="app-assets/images/portrait/small/avatar-s-8.jpg" alt="png" height="32"></div>
+                    <div class="search-data">
+                        <p class="search-data-title mb-0">John Doe</p><small class="text-muted">UI designer</small>
+                    </div>
+                </div>
+            </a></li>
+        <li class="auto-suggestion d-flex align-items-center cursor-pointer"><a class="d-flex align-items-center justify-content-between py-50 w-100" href="#">
+                <div class="d-flex align-items-center">
+                    <div class="avatar mr-50"><img src="app-assets/images/portrait/small/avatar-s-1.jpg" alt="png" height="32"></div>
+                    <div class="search-data">
+                        <p class="search-data-title mb-0">Michal Clark</p><small class="text-muted">FontEnd Developer</small>
+                    </div>
+                </div>
+            </a></li>
+        <li class="auto-suggestion d-flex align-items-center cursor-pointer"><a class="d-flex align-items-center justify-content-between py-50 w-100" href="#">
+                <div class="d-flex align-items-center">
+                    <div class="avatar mr-50"><img src="app-assets/images/portrait/small/avatar-s-14.jpg" alt="png" height="32"></div>
+                    <div class="search-data">
+                        <p class="search-data-title mb-0">Milena Gibson</p><small class="text-muted">Digital Marketing Manager</small>
+                    </div>
+                </div>
+            </a></li>
+        <li class="auto-suggestion d-flex align-items-center cursor-pointer"><a class="d-flex align-items-center justify-content-between py-50 w-100" href="#">
+                <div class="d-flex align-items-center">
+                    <div class="avatar mr-50"><img src="app-assets/images/portrait/small/avatar-s-6.jpg" alt="png" height="32"></div>
+                    <div class="search-data">
+                        <p class="search-data-title mb-0">Anna Strong</p><small class="text-muted">Web Designer</small>
+                    </div>
+                </div>
+            </a></li>
+    </ul>
+    <ul class="main-search-list-defaultlist-other-list d-none">
+        <li class="auto-suggestion d-flex align-items-center justify-content-between cursor-pointer"><a class="d-flex align-items-center justify-content-between w-100 py-50">
+                <div class="d-flex justify-content-start"><span class="mr-75 feather icon-alert-circle"></span><span>No results found.</span></div>
+            </a></li>
+    </ul>
+    <!-- END: Header-->
+
+
+    <!-- BEGIN: Main Menu-->
+    <div class="horizontal-menu-wrapper">
+        <div class="header-navbar navbar-expand-sm navbar navbar-horizontal floating-nav navbar-dark navbar-without-dd-arrow navbar-shadow menu-border" role="navigation" data-menu="menu-wrapper">
+            <div class="navbar-header">
+                <ul class="nav navbar-nav flex-row">
+                    <li class="nav-item mr-auto"><a class="navbar-brand" href="html/ltr/horizontal-menu-template-dark/index.html">
+                            <div class="brand-logo"></div>
+                            <h2 class="brand-text mb-0">BigBro</h2>
+                        </a></li>
+                    <li class="nav-item nav-toggle"><a class="nav-link modern-nav-toggle pr-0" data-toggle="collapse"><i class="feather icon-x d-block d-xl-none font-medium-4 primary toggle-icon"></i><i class="toggle-icon feather icon-disc font-medium-4 d-none d-xl-block collapse-toggle-icon primary" data-ticon="icon-disc"></i></a></li>
+                </ul>
+            </div>
+            <!-- Horizontal menu content-->
+            <div class="navbar-container main-menu-content" data-menu="menu-container">
+                <!-- include includes/mixins-->
+                <ul class="nav navbar-nav" id="main-menu-navigation" data-menu="menu-navigation">
+                    <li class="nav-item active" ><a class="nav-link" href="index.html"><i class="feather icon-home"></i><span data-i18n="Dashboard">Dashboard</span></a>
+
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <!-- END: Main Menu-->
+
+    <!-- BEGIN: Content-->
+    <div class="app-content content">
+        <div class="content-overlay"></div>
+        <div class="header-navbar-shadow"></div>
+        <div class="content-wrapper">
+            <div class="content-header row">
+            </div>
+            <div class="content-body">
+                <!-- Dashboard Analytics Start -->
+                <section id="dashboard-analytics">
+                    <div class="row">
+                        <div class="col-lg-6 col-sm-6 col-12">
+                            <div class="card">
+                                <div class="card-header d-flex align-items-start pb-0">
+                                    <div>
+                                        <h2 class="text-bold-700 mb-0" id="cpu-usage">Loading...</h2>
+                                        <p>CPU Usage</p>
+                                    </div>
+                                    <div class="avatar bg-rgba-primary p-50 m-0">
+                                        <div class="avatar-content">
+                                            <i class="feather icon-cpu text-primary font-medium-5"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-6 col-sm-6 col-12">
+                            <div class="card">
+                                <div class="card-header d-flex align-items-start pb-0">
+                                    <div>
+                                        <h2 class="text-bold-700 mb-0" id="ram-usage">Loading...</h2>
+                                        <p>Memory Usage</p>
+                                    </div>
+                                    <div class="avatar bg-rgba-success p-50 m-0">
+                                        <div class="avatar-content">
+                                            <i class="feather icon-server text-success font-medium-5"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                      <!--  <div class="col-lg-3 col-sm-6 col-12">
+                            <div class="card">
+                                <div class="card-header d-flex align-items-start pb-0">
+                                    <div>
+                                        <h2 class="text-bold-700 mb-0">0.1%</h2>
+                                        <p>Downtime Ratio</p>
+                                    </div>
+                                    <div class="avatar bg-rgba-danger p-50 m-0">
+                                        <div class="avatar-content">
+                                            <i class="feather icon-activity text-danger font-medium-5"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-3 col-sm-6 col-12">
+                            <div class="card">
+                                <div class="card-header d-flex align-items-start pb-0">
+                                    <div>
+                                        <h2 class="text-bold-700 mb-0">13</h2>
+                                        <p>Issues Found</p>
+                                    </div>
+                                    <div class="avatar bg-rgba-warning p-50 m-0">
+                                        <div class="avatar-content">
+                                            <i class="feather icon-alert-octagon text-warning font-medium-5"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div> -->
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-4 col-12">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h4 class="card-title">Server Information</h4>
+                                </div>
+                                <div class="card-content">
+                                    <div class="card-body">
+                                        <ul class="activity-timeline timeline-left list-unstyled">
+                                            <li>
+                                                <div class="timeline-icon bg-primary">
+                                                    <i class="feather icon-box font-medium-2 align-middle"></i>
+                                                </div>
+                                                <div class="timeline-info">
+                                                    <p class="font-weight-bold mb-0">Operative System</p>
+                                                    <span class="font-small-3" id="os-info">Loading... </span>
+                                                </div>
+                                            </li>
+                                            <li>
+                                                <div class="timeline-icon bg-info">
+                                                    <i class="feather icon-cpu  font-medium-2 align-middle"></i>
+                                                </div>
+                                                <div class="timeline-info">
+                                                    <p class="font-weight-bold mb-0">CPU</p>
+                                                    <span class="font-small-3" id="cpu-info">Loading...</span>
+                                                </div>
+                                            </li>
+                                            <li>
+                                                <div class="timeline-icon bg-warning">
+                                                    <i class="feather icon-monitor font-medium-2 align-middle"></i>
+                                                </div>
+                                                <div class="timeline-info">
+                                                    <p class="font-weight-bold mb-0">GPU</p>
+                                                    <span class="font-small-3" id="gpu-info">Loading...</span>
+                                                </div>
+                                            </li>
+                                            <li>
+                                                <div class="timeline-icon bg-danger">
+                                                    <i class="feather icon-server font-medium-2 align-middle"></i>
+                                                </div>
+                                                <div class="timeline-info">
+                                                    <p class="font-weight-bold mb-0">RAM</p>
+                                                    <span class="font-small-3" id="ram-info">Loading...</span>
+                                                </div>
+                                            </li>
+                                            <li>
+                                                <div class="timeline-icon bg-success">
+                                                    <i class="feather icon-globe font-medium-2 align-middle"></i>
+                                                </div>
+                                                <div class="timeline-info">
+                                                    <p class="font-weight-bold mb-0">Internet Connectivity</p>
+                                                    <span class="font-small-3" id="internet-info">Loading...</span>
+                                                </div>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-8 col-12">
+                            <div class="card">
+                                <div class="card-header d-flex justify-content-between pb-0">
+                                    <h4 class="card-title">Services Resume</h4>
+                                </div>
+                                <div class="card-content">
+                                    <div class="card-body pt-0">
+                                        <div class="row">
+                                            <div class="col-sm-12 col-12 d-flex justify-content-center">
+                                                <div id="support-tracker-chart"></div>
+                                            </div>
+                                        </div>
+                                        <div class="chart-info d-flex justify-content-between">
+                                            <div class="text-center">
+                                                <p class="mb-50">Online</p>
+                                                <span class="font-large-1">29</span>
+                                            </div>
+                                            <div class="text-center">
+                                                <p class="mb-50">Offline</p>
+                                                <span class="font-large-1">63</span>
+                                            </div>
+                                            <div class="text-center">
+                                                <p class="mb-50">AVG Check time</p>
+                                                <span class="font-large-1">1d</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h4 class="mb-0">Monitoring Services</h4>
+                                </div>
+                                <div class="card-content">
+                                    <div class="table-responsive mt-1">
+                                        <table class="table table-hover-animation mb-0">
+                                            <thead>
+                                                <tr>
+                                                    <th>Service</th>
+                                                    <th>STATUS</th>
+                                                    <th>Protocol</th>
+                                                    <th>Server</th>
+                                                    <th>Port</th>
+                                                    <th>Latency</th>
+                                                    <th>Last check</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody id="services-list-table">
+                                                <tr>
+                                                    <td>Facebook</td>
+                                                    <td><i class="fa fa-circle font-small-3 text-success mr-50"></i>Online</td>
+                                                    <td class="p-1">
+                                                        HTTP
+                                                    </td>
+                                                    <td>facebook.com</td>
+                                                    <td>
+                                                        80
+                                                    </td>
+                                                    <td><span>30 ms</span>
+                                                        <div class="progress progress-bar-success mt-1 mb-0">
+                                                            <div class="progress-bar" role="progressbar" style="width: 80%" aria-valuenow="80" aria-valuemin="0" aria-valuemax="100"></div>
+                                                        </div></td>
+                                                    <td>28/07/2018, 13:10:33</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Facebook</td>
+                                                    <td><i class="fa fa-circle font-small-3 text-warning mr-50"></i>Pending</td>
+                                                    <td class="p-1">
+                                                        HTTP
+                                                    </td>
+                                                    <td>facebook.com</td>
+                                                    <td>
+                                                        80
+                                                    </td>
+                                                    <td><span>180 ms</span>
+                                                        <div class="progress progress-bar-warning mt-1 mb-0">
+                                                            <div class="progress-bar" role="progressbar" style="width: 30%" aria-valuenow="80" aria-valuemin="0" aria-valuemax="100"></div>
+                                                        </div></td>
+                                                    <td>28/07/2018</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Facebook</td>
+                                                    <td><i class="fa fa-circle font-small-3 text-danger mr-50"></i>Offline</td>
+                                                    <td class="p-1">
+                                                        HTTP
+                                                    </td>
+                                                    <td>facebook.com</td>
+                                                    <td>
+                                                        80
+                                                    </td>
+                                                    <td><span>999 ms</span>
+                                                        <div class="progress progress-bar-danger mt-1 mb-0">
+                                                            <div class="progress-bar" role="progressbar" style="width: 100%" aria-valuenow="80" aria-valuemin="0" aria-valuemax="100"></div>
+                                                        </div></td>
+                                                    <td>28/07/2018</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+            </div>
+        </div>
+    </div>
+    <!-- END: Content-->
+
+    <div class="sidenav-overlay"></div>
+    <div class="drag-target"></div>
+
+    <!-- BEGIN: Footer-->
+    <footer class="footer footer-static footer-dark navbar-shadow">
+        <p class="clearfix blue-grey lighten-2 mb-0"><span class="float-md-left d-block d-md-inline-block mt-25">COPYRIGHT &copy; 2020<a class="text-bold-800 grey darken-2" href="https://github.com" target="_blank">BigBro,</a>MIT License</span><span class="float-md-right d-none d-md-block">Hand-crafted & Made with<i class="feather icon-heart pink"></i></span>
+            <button class="btn btn-primary btn-icon scroll-top" type="button"><i class="feather icon-arrow-up"></i></button>
+        </p>
+    </footer>
+    <!-- END: Footer-->
+
+
+    <!-- BEGIN: Vendor JS-->
+    <script src="app-assets/vendors/js/vendors.min.js"></script>
+    <!-- BEGIN Vendor JS-->
+
+    <!-- BEGIN: Page Vendor JS-->
+    <script src="app-assets/vendors/js/ui/jquery.sticky.js"></script>
+    <script src="app-assets/vendors/js/charts/apexcharts.min.js"></script>
+    <script src="app-assets/vendors/js/extensions/tether.min.js"></script>
+    <script src="app-assets/vendors/js/extensions/shepherd.min.js"></script>
+    <!-- END: Page Vendor JS-->
+
+    <!-- BEGIN: Theme JS-->
+    <script src="app-assets/js/core/app-menu.js"></script>
+    <script src="app-assets/js/core/app.js"></script>
+    <script src="app-assets/js/scripts/components.js"></script>
+    <!-- END: Theme JS-->
+
+    <!-- BEGIN: Page JS-->
+    <script src="app-assets/js/scripts/pages/dashboard-analytics.js"></script>
+    <script src="app-assets/js/scripts/cards/card-analytics.js"></script>
+    <script src="assets/js/scripts.js"></script>
+    <!-- END: Page JS-->
+
+</body>
+<!-- END: Body-->
+
+</html>

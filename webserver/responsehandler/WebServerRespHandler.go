@@ -1,6 +1,7 @@
 package responsehandler
 
 import (
+	"errors"
 	"fmt"
 	"github.com/bigbroproject/bigbrocore/models"
 	"github.com/bigbroproject/bigbrocore/models/response"
@@ -46,6 +47,7 @@ func (handler WebServerRespHandler) loadServices(configuration *models.Config) {
 			resp := response.Response{
 				ServiceName: service.Name,
 				Protocol:    protocol,
+				Error:       errors.New("pending"),
 			}
 			handler.writeResponse(resp)
 
