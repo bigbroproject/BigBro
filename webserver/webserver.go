@@ -3,6 +3,7 @@ package webserver
 import (
 	"github.com/bigbroproject/bigbro/models/config"
 	"github.com/bigbroproject/bigbro/models/data"
+	"github.com/bigbroproject/bigbro/system"
 	"github.com/bigbroproject/bigbrocore/models/response"
 	"github.com/gin-gonic/gin"
 	"log"
@@ -25,6 +26,7 @@ func NewWebServer(serverConfPath string) *WebServer {
 	if err != nil {
 		log.Fatal(err.Error())
 	}
+	gin.SetMode(gin.ReleaseMode)
 	router := gin.Default()
 	inputChannel := make(chan response.Response)
 	serviceMap := make(map[string]data.ServiceData, 0)
@@ -45,6 +47,7 @@ func NewWebServer(serverConfPath string) *WebServer {
 
 	apiGroup := router.Group("/api")
 	apiGroup.GET("/services", func(context *gin.Context) { getServicesList(context, &ws) })
+	apiGroup.GET("/system", func(context *gin.Context) { getSystemInformation(context) })
 
 	router.GET("/", func(context *gin.Context) { context.Redirect(http.StatusMovedPermanently, "/dashboard") })
 
@@ -108,7 +111,14 @@ func (ws *WebServer) listenInputChannel() {
 }
 
 func getServicesList(context *gin.Context, ws *WebServer) {
-
 	context.JSON(http.StatusOK, ws.ServiceMap)
+}
 
+func getSystemInformation(context *gin.Context) {
+	sysInfo, err := system.GetSystemInfo()
+	if err != nil {
+		context.JSON(http.StatusInternalServerError, err)
+	} else {
+		context.JSON(http.StatusOK, sysInfo)
+	}
 }
