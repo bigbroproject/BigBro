@@ -8,6 +8,9 @@ services:
       - type: http
         server: federicosantoro.com
         interval: 2000
+      - type: icmp
+        server: 3.3.3.3
+        interval: 2000
 #  - name: Facebook
 #    protocols:
 #      - type: https

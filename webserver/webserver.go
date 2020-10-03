@@ -163,10 +163,11 @@ func newServerSocket() *socketio.Server {
 	if err != nil {
 		log.Fatal(err)
 	}
+
 	serverSocket.OnConnect("/", func(s socketio.Conn) error {
 		s.Join(ROOM_SERVICES_LISTENERS)
 		s.SetContext("")
-		fmt.Println("connected:", s.ID())
+		fmt.Println("connected:", serverSocket.Count())
 		return nil
 	})
 
@@ -182,6 +183,7 @@ func newServerSocket() *socketio.Server {
 	serverSocket.OnDisconnect("/", func(s socketio.Conn, reason string) {
 		s.Close()
 		fmt.Println("closed", reason)
+		fmt.Println("connected:", serverSocket.Count())
 	})
 
 	return serverSocket
