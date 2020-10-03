@@ -1,24 +1,25 @@
 services:
   - name: Sito Personale
     protocols:
-      - type: https
-        server: federicosantoro.com
+      - type: http
+        server: localhost
+        port: 8000
         interval: 2000
       - type: http
         server: federicosantoro.com
         interval: 2000
-  - name: Facebook
-    protocols:
-      - type: https
-        server: facebook.com
-        interval: 2000
-  - name: Twitter
-    protocols:
-      - type: https
-        server: twitter.com
-        interval: 2000
-  - name: Twitch
-    protocols:
-      - type: https
-        server: twitch.tv
-        interval: 2000
+#  - name: Facebook
+#    protocols:
+#      - type: https
+#        server: facebook.com
+#        interval: 2000
+#  - name: Twitter
+#    protocols:
+#      - type: https
+#        server: twitter.com
+#        interval: 2000
+#  - name: Twitch
+#    protocols:
+#      - type: https
+#        server: twitch.tv
+#        interval: 2000

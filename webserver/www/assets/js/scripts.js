@@ -1,100 +1,150 @@
-(function (window, document, $) {
-  'use strict';
+(function (window, document, $, io) {
+    'use strict';
 
 
-  class Application {
-    constructor(){
-      this.intervalSystemInfo = null
-    }
+    class Application {
+        constructor(){
+            this.intervalSystemInfo = null
+            this.socket = io();
 
-    getServices(){
-      const $tableList = $("#services-list-table");
-      $.get("/api/services",(response) => {
-        $tableList.empty();
+            this.socket.on('connect', () => {
+                console.log(this.socket.connected); // true
+            });
 
-        for (const serviceKey of Object.keys(response))  {
-          const service = response[serviceKey];
+            this.socket.on('serviceChange', (data) => {
+                //console.log(data); // true
+                this.updateServiceData(data)
+            });
 
-          for(const protocolData of service.Protocols){
 
-            let errStatus = "";
+            this.socket.on('disconnect', () => {
+                console.log(this.socket.connected); // false
+            });
 
-            if(protocolData.Err === "<<pending>>"){
-              // pending
-              errStatus = "<i class=\"fa fa-circle font-small-3 text-warning mr-50\"></i>Pending"
-            } else {
-              errStatus = protocolData.Err ? "<i class=\"fa fa-circle font-small-3 text-danger mr-50\"></i>Offline" : "<i class=\"fa fa-circle font-small-3 text-success mr-50\"></i>Online"
+            $('[data-toggle="tooltip"]').tooltip()
+        }
+
+        getServices(){
+            const $tableList = $("#services-list-table");
+            $.get("/api/services",(response) => {
+                $tableList.empty();
+
+                for (const serviceKey of Object.keys(response))  {
+                    const service = response[serviceKey];
+
+                    for(const protocolData of service.Protocols){
+
+                        let errStatus = "";
+
+                        if(protocolData.Err === "<<pending>>"){
+                            // pending
+                            errStatus = "<i class=\"fa fa-circle font-small-3 text-warning mr-50\"></i>Pending"
+                        } else {
+                            errStatus = protocolData.Err ? "<i class=\"fa fa-circle font-small-3 text-danger mr-50\"></i>Offline <i  class=\"fa fa-question-circle font-small-3 text-danger error-tooltip ml-50\" data-error='"+protocolData.Err+"' ></i>" : "<i class=\"fa fa-circle font-small-3 text-success mr-50\"></i>Online"
+                        }
+
+                        const $service = {
+                            name : service.Name,
+                            status : errStatus,
+                            error : protocolData.Err,
+                            protocol : protocolData.Protocol
+                        }
+
+                        const $tableRow = $("<tr></tr>")
+                        const keyMap = $service.name+$service.protocol.Server+$service.protocol.Type+$service.protocol.Port
+                        $tableRow.attr("data-service-protocol-server", keyMap)
+                        $tableRow.append($("<td></td>").html($service.name));
+
+
+                        const $statusField = $("<td></td>")
+                        $statusField.addClass("status")
+
+                        if(protocolData.Err != null){
+                            //$statusField.attr("data-html", "true")
+                            $statusField.attr("data-toggle", "popover")
+                            $statusField.attr("data-trigger", "focus")
+                            $statusField.attr("data-content", "Boh")
+                        }
+                        $tableRow.append($statusField.html($service.status));
+
+                        $tableRow.append($("<td></td>").addClass("p-1").html($service.protocol.Type.toUpperCase()));
+                        $tableRow.append($("<td></td>").html($service.protocol.Server));
+                        $tableRow.append($("<td></td>").html($service.protocol.Port ? $service.protocol.Port : "Default Port"));
+                        $tableRow.append($("<td></td>"));
+                        $tableRow.append($("<td></td>"));
+
+                        $tableList.append($tableRow);
+                        //    console.log($service)
+
+
+                    }
+
+                }
+            })
+        }
+        getSystemInformation(){
+            $.get("/api/system",(response) => {
+                $("#cpu-usage").html( Math.round(response.Cpu.Usage) + "%");
+                $("#ram-usage").html( Math.round(response.Memory.UsedPercent) + "%");
+
+                $("#os-info").html(   response.Host.Platform[0].toUpperCase() + response.Host.Platform.slice(1)+" ("+response.Host.PlatformVersion+") "+ response.Host.KernelArch);
+                $("#cpu-info").html( response.Cpu.ModelName+" ("+response.Cpu.Cores+" cores) "+response.Cpu.Frequency+" Mhz");
+                if(response.Gpu.Name !== ""){
+                    $("#gpu-info").html( response.Gpu.Name+" ("+response.Gpu.Vendor+")");
+                } else {
+                    $("#gpu-info").html("No GPUs installed");
+                }
+                $("#ram-info").html( ( Math.round(response.Memory.Total / Math.pow(1024,2))) + " MB");
+                if(response.Network.InternetConnected){
+                    $("#internet-info").html( "Connected" + " ("+response.Network.PublicIP+")");
+                } else {
+                    $("#internet-info").html( "Not Connected");
+                }
+
+
+            })
+        }
+        startSystemInfoInterval(){
+            this.intervalSystemInfo = setInterval(this.getSystemInformation, 10000)
+        }
+        stopSystemInfoInterval(){
+            clearInterval(this.intervalSystemInfo)
+        }
+        updateServiceData(service){
+
+            for(const protocolData of service.Protocols){
+                const keyMap = service.Name + protocolData.Protocol.Server + protocolData.Protocol.Type+ protocolData.Protocol.Port;
+
+                let errStatus = "";
+                if(protocolData.Err === "<<pending>>"){
+                    // pending
+                    errStatus = "<i class=\"fa fa-circle font-small-3 text-warning mr-50\"></i>Pending"
+                } else {
+                    errStatus = protocolData.Err ? "<i class=\"fa fa-circle font-small-3 text-danger mr-50\"></i>Offline" : "<i class=\"fa fa-circle font-small-3 text-success mr-50\"></i>Online"
+                }
+
+                $("#services-list-table tr[data-service-protocol-server='"+keyMap+"'] .status").html(errStatus)
+                if(protocolData.Err != null){
+                    $("#services-list-table tr[data-service-protocol-server='"+keyMap+"'] .error-tooltip").attr("data-content", JSON.stringify(protocolData.Err))
+                }
+
             }
 
-            const $service = {
-              name : service.Name,
-              status : errStatus,
-              error : protocolData.Err,
-              protocol : protocolData.Protocol
-            }
-
-            const $tableRow = $("<tr></tr>")
-            $tableRow.append($("<td></td>").html($service.name));
-            $tableRow.append($("<td></td>").html($service.status));
-            $tableRow.append($("<td></td>").addClass("p-1").html($service.protocol.Type.toUpperCase()));
-            $tableRow.append($("<td></td>").html($service.protocol.Server));
-            $tableRow.append($("<td></td>").html($service.protocol.Port ? $service.protocol.Port : "Default Port"));
-            $tableRow.append($("<td></td>"));
-            $tableRow.append($("<td></td>"));
-
-            $tableList.append($tableRow);
-        //    console.log($service)
-
-
-          }
-
         }
-      })
-    }
-    getSystemInformation(){
-      $.get("/api/system",(response) => {
-        $("#cpu-usage").html( Math.round(response.Cpu.Usage) + "%");
-        $("#ram-usage").html( Math.round(response.Memory.UsedPercent) + "%");
-
-        $("#os-info").html(   response.Host.Platform[0].toUpperCase() + response.Host.Platform.slice(1)+" ("+response.Host.PlatformVersion+") "+ response.Host.KernelArch);
-        $("#cpu-info").html( response.Cpu.ModelName+" ("+response.Cpu.Cores+" cores) "+response.Cpu.Frequency+" Mhz");
-        if(response.Gpu.Name !== ""){
-          $("#gpu-info").html( response.Gpu.Name+" ("+response.Gpu.Vendor+")");
-        } else {
-          $("#gpu-info").html("No GPUs installed");
-        }
-        $("#ram-info").html( ( Math.round(response.Memory.Total / Math.pow(1024,2))) + " MB");
-        if(response.Network.InternetConnected){
-          $("#internet-info").html( "Connected" + " ("+response.Network.PublicIP+")");
-        } else {
-          $("#internet-info").html( "Not Connected");
-        }
-
-
-      })
     }
 
-    startSystemInfoInterval(){
-      this.intervalSystemInfo = setInterval(this.getSystemInformation, 10000)
-    }
+    /*
+    NOTE:
+    ------
+    PLACE HERE YOUR OWN JAVASCRIPT CODE IF NEEDED
+    WE WILL RELEASE FUTURE UPDATES SO IN ORDER TO NOT OVERWRITE YOUR JAVASCRIPT CODE PLEASE CONSIDER WRITING YOUR SCRIPT HERE.  */
 
-    stoptSystemInfoInterval(){
-      clearInterval(this.intervalSystemInfo)
-    }
-  }
+    $(window).on("load",  () => {
+        let app = new Application();
+        app.getSystemInformation();
+        app.startSystemInfoInterval();
+        app.getServices();
+        app.getServices();
+    })
 
-  /*
-  NOTE:
-  ------
-  PLACE HERE YOUR OWN JAVASCRIPT CODE IF NEEDED
-  WE WILL RELEASE FUTURE UPDATES SO IN ORDER TO NOT OVERWRITE YOUR JAVASCRIPT CODE PLEASE CONSIDER WRITING YOUR SCRIPT HERE.  */
-
-  $(window).on("load",  () => {
-    let app = new Application();
-    app.getSystemInformation();
-    app.startSystemInfoInterval();
-    app.getServices();
-    app.getServices();
-  })
-
-})(window, document, jQuery);
+})(window, document, jQuery, io);

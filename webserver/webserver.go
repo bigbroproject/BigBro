@@ -1,14 +1,24 @@
 package webserver
 
 import (
+	"fmt"
 	"github.com/bigbroproject/bigbro/models/config"
 	"github.com/bigbroproject/bigbro/models/data"
 	"github.com/bigbroproject/bigbro/system"
 	"github.com/bigbroproject/bigbrocore/models/response"
 	"github.com/gin-gonic/gin"
+	socketio "github.com/googollee/go-socket.io"
 	"log"
 	"net/http"
 	"strconv"
+)
+
+const (
+	ROOM_SERVICES_LISTENERS = "serviceListeners"
+)
+
+const (
+	EVENT_SERVICE_CHANGE = "serviceChange"
 )
 
 type WebServer struct {
@@ -18,6 +28,7 @@ type WebServer struct {
 	Router       *gin.Engine
 	InputChannel chan response.Response
 	ServiceMap   *map[string]data.ServiceData
+	ServerSocket *socketio.Server
 }
 
 func NewWebServer(serverConfPath string) *WebServer {
@@ -26,6 +37,18 @@ func NewWebServer(serverConfPath string) *WebServer {
 	if err != nil {
 		log.Fatal(err.Error())
 	}
+
+	serverSocket := newServerSocket()
+	go func() {
+		err := serverSocket.Serve()
+
+		if err != nil {
+			log.Fatal(err)
+		}
+	}()
+
+	//defer serverSocket.Close()
+
 	gin.SetMode(gin.ReleaseMode)
 	router := gin.New() // gin.Default()
 	//router.Use(gin.Logger())
@@ -40,6 +63,7 @@ func NewWebServer(serverConfPath string) *WebServer {
 		Router:       router,
 		ServiceMap:   &serviceMap,
 		InputChannel: inputChannel,
+		ServerSocket: serverSocket,
 	}
 
 	// Register REST
@@ -50,6 +74,9 @@ func NewWebServer(serverConfPath string) *WebServer {
 	apiGroup := router.Group("/api")
 	apiGroup.GET("/services", func(context *gin.Context) { getServicesList(context, &ws) })
 	apiGroup.GET("/system", func(context *gin.Context) { getSystemInformation(context) })
+
+	router.GET("/socket.io/*any", gin.WrapH(serverSocket))
+	router.POST("/socket.io/*any", gin.WrapH(serverSocket))
 
 	router.GET("/", func(context *gin.Context) { context.Redirect(http.StatusMovedPermanently, "/dashboard") })
 
@@ -76,12 +103,23 @@ func (ws *WebServer) listenInputChannel() {
 		if serviceData, exists := (*ws.ServiceMap)[resp.ServiceName]; exists {
 			//service exists
 			protocolExists := false
+			sendToWs := false
 
 			for i := 0; i < len(serviceData.Protocols); i++ {
 				protocolData := &serviceData.Protocols[i]
 				if protocolData.Protocol.Type == resp.Protocol.Type && protocolData.Protocol.Server == resp.Protocol.Server && protocolData.Protocol.Port == resp.Protocol.Port {
-					protocolData.Err = resp.Error
-					//serviceData.Protocols[index] = protocolData
+
+					if protocolData.Err != nil && resp.Error != nil {
+						if protocolData.Err.Error() != resp.Error.Error() {
+							protocolData.Err = resp.Error
+							sendToWs = true
+						}
+					} else {
+						if protocolData.Err != resp.Error {
+							protocolData.Err = resp.Error
+							sendToWs = true
+						}
+					}
 					protocolExists = true
 				}
 
@@ -95,6 +133,10 @@ func (ws *WebServer) listenInputChannel() {
 
 			}
 
+			if sendToWs {
+				ws.ServerSocket.BroadcastToRoom("/", ROOM_SERVICES_LISTENERS, EVENT_SERVICE_CHANGE, serviceData)
+			}
+
 			(*ws.ServiceMap)[resp.ServiceName] = serviceData
 
 		} else {
@@ -105,14 +147,44 @@ func (ws *WebServer) listenInputChannel() {
 			}
 			protocolsList := make([]data.ProtocolData, 1)
 			protocolsList[0] = firstProtocol
-			(*ws.ServiceMap)[resp.ServiceName] = data.ServiceData{
+			auxData := data.ServiceData{
 				Name:      resp.ServiceName,
-				Err:       resp.Error,
 				Protocols: protocolsList,
 			}
+			(*ws.ServiceMap)[resp.ServiceName] = auxData
 		}
 	}
 
+}
+
+func newServerSocket() *socketio.Server {
+
+	serverSocket, err := socketio.NewServer(nil)
+	if err != nil {
+		log.Fatal(err)
+	}
+	serverSocket.OnConnect("/", func(s socketio.Conn) error {
+		s.Join(ROOM_SERVICES_LISTENERS)
+		s.SetContext("")
+		fmt.Println("connected:", s.ID())
+		return nil
+	})
+
+	serverSocket.OnEvent("/", "notice", func(s socketio.Conn, msg string) {
+		fmt.Println("notice:", msg)
+		s.Emit("reply", "have "+msg)
+	})
+
+	serverSocket.OnError("/", func(s socketio.Conn, e error) {
+		fmt.Println("meet error:", e)
+	})
+
+	serverSocket.OnDisconnect("/", func(s socketio.Conn, reason string) {
+		s.Close()
+		fmt.Println("closed", reason)
+	})
+
+	return serverSocket
 }
 
 func getServicesList(context *gin.Context, ws *WebServer) {
