@@ -6,6 +6,7 @@ import (
 	"github.com/bigbroproject/bigbro/models/data"
 	"github.com/bigbroproject/bigbro/system"
 	"github.com/bigbroproject/bigbrocore/models/response"
+	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
 	socketio "github.com/googollee/go-socket.io"
 	"log"
@@ -50,7 +51,9 @@ func NewWebServer(serverConfPath string) *WebServer {
 	//defer serverSocket.Close()
 
 	gin.SetMode(gin.ReleaseMode)
+
 	router := gin.New() // gin.Default()
+	router.Use(cors.Default())
 	//router.Use(gin.Logger())
 	router.Use(gin.Recovery())
 	inputChannel := make(chan response.Response)

@@ -2927,7 +2927,7 @@ typeof navigator === "object" && (function (global, factory) {
           });
           var inner = createElement('div');
           var home = createElement('div', {
-            id: "plyr-settings-".concat(data.id, "-home")
+            id: "plyr-settings-".concat(data.id, "-dashboard")
           }); // Create the menu
 
           var menu = createElement('div', {
