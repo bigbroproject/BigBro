@@ -6,12 +6,11 @@ import (
 	"github.com/bigbroproject/bigbro/webserver/responsehandler"
 	"github.com/bigbroproject/bigbrocore/core"
 	"github.com/bigbroproject/bigbrocore/responsehandlers"
-	"log"
 )
 
 func main() {
 
-	log.SetFlags(log.LstdFlags | log.Lshortfile)
+	//log.SetFlags(log.LstdFlags | log.Lshortfile)
 	system.PrintSystemInfo()
 	ws := webserver.NewWebServer("config/serverconfig.yml")
 	ws.Start()

@@ -53,7 +53,15 @@ func NewWebServer(serverConfPath string) *WebServer {
 	gin.SetMode(gin.ReleaseMode)
 
 	router := gin.New() // gin.Default()
-	router.Use(cors.Default())
+
+	configCors := cors.DefaultConfig()
+	configCors.AllowOrigins = sConf.AllowOrigins
+	configCors.AllowCredentials = true
+	router.Use(cors.New(configCors))
+	//router.Use(GinMiddleware("localhost:8080"))
+
+	//router.Use(cors.Default())
+	//router.Use(CORSMiddleware())
 	//router.Use(gin.Logger())
 	router.Use(gin.Recovery())
 	inputChannel := make(chan response.Response)
@@ -186,7 +194,7 @@ func newServerSocket() *socketio.Server {
 	serverSocket.OnDisconnect("/", func(s socketio.Conn, reason string) {
 		s.Close()
 		fmt.Println("closed", reason)
-		fmt.Println("connected:", serverSocket.Count())
+		fmt.Println("connected remain:", serverSocket.Count())
 	})
 
 	return serverSocket
@@ -203,5 +211,23 @@ func getSystemInformation(context *gin.Context) {
 		context.JSON(http.StatusInternalServerError, err)
 	} else {
 		context.JSON(http.StatusOK, sysInfo)
+	}
+}
+
+func GinMiddleware(allowOrigin string) gin.HandlerFunc {
+	return func(c *gin.Context) {
+		c.Writer.Header().Set("Access-Control-Allow-Origin", allowOrigin)
+		c.Writer.Header().Set("Access-Control-Allow-Credentials", "true")
+		c.Writer.Header().Set("Access-Control-Allow-Methods", "POST, OPTIONS, GET, PUT, DELETE")
+		c.Writer.Header().Set("Access-Control-Allow-Headers", "Accept, Authorization, Content-Type, Content-Length, X-CSRF-Token, Token, session, Origin, Host, Connection, Accept-Encoding, Accept-Language, X-Requested-With")
+
+		if c.Request.Method == "OPTIONS" {
+			c.AbortWithStatus(204)
+			return
+		}
+
+		c.Request.Header.Del("Origin")
+
+		c.Next()
 	}
 }

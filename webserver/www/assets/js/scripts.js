@@ -5,7 +5,7 @@
     class Application {
         constructor() {
             this.intervalSystemInfo = null
-            this.socket = io();
+            this.socket = io("http://localhost:8181");
 
             this.socket.on('connect', () => {
                 console.log(this.socket.connected); // true

@@ -6,11 +6,11 @@ import (
 )
 
 type ServerConfig struct {
-	Port int `yaml:"port"`
-	Address string `yaml:"address"`
-	SSL bool
+	Port         int      `yaml:"port"`
+	Address      string   `yaml:"address"`
+	AllowOrigins []string `yaml:"allowOrigins"`
+	SSL          bool
 }
-
 
 /**
 Get config from yaml file
