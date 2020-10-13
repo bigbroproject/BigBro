@@ -8,7 +8,8 @@ const router = createRouter({
             path: '/',
             name: 'dashboard',
             component: Dashboard
-        }
+        },
+        { path: "/:pathMatch(.*)*", redirect: '/' }
     ]
 });
 

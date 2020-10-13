@@ -1,10 +1,6 @@
 <template>
     <div class="c-wrapper">
-        <header class="c-header">
-            <header class="navbar navbar-light">
-
-            </header>
-        </header>
+        <Header></Header>
         <div class="c-body">
             <main class="c-main">
                 <!-- Main content here -->
@@ -20,45 +16,62 @@
 </template>
 
 <script>
-
-
+import {ServiceData} from "./models/ServiceData"
+import Header from "./components/Header/Header"
+import io from 'socket.io-client';
 export default {
+    components: {Header},
     data() {
         return {
             message: null,
-            text: null
+            text: null,
+            socket:io("http://localhost:8181")
         }
+    },
+    created() {
+        this.socket.on('connect', () => {
+            console.log("Connected!"); // true
+        });
+
+        this.socket.on('serviceChange', (data) => {
+
+            this.$store.commit({
+                type: 'updateService',
+                sData: ServiceData.fromJson(data)
+            })
+        });
+
+
+        this.socket.on('disconnect', () => {
+            console.log("Disconnected!"); // false
+        });
     },
     mounted() {
     },
     methods: {
-        greet() {
-            this.$toast.add({severity: 'info', summary: 'Hello '  + this.text});
-            this.message = 'Hello ' + this.text;
-        }
     },
 
 }
 </script>
 
 <style scoped>
-#app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  color: #2c3e50;
-  margin-top: 60px;
-}
+/*#app {*/
+/*  font-family: 'Avenir', Helvetica, Arial, sans-serif;*/
+/*  -webkit-font-smoothing: antialiased;*/
+/*  -moz-osx-font-smoothing: grayscale;*/
+/*  color: #2c3e50;*/
+/*  margin-top: 60px;*/
+/*}*/
 
-.app-container {
-  text-align: center;
-}
+/*.app-container {*/
+/*  text-align: center;*/
+/*}*/
 
-body #app .p-button {
-  margin-left: .2em;
-}
+/*body #app .p-button {*/
+/*  margin-left: .2em;*/
+/*}*/
 
-form {
-  margin-top: 2em;
-}
+/*form {*/
+/*  margin-top: 2em;*/
+/*}*/
 </style>
