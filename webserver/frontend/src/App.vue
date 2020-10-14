@@ -25,7 +25,7 @@ export default {
         return {
             message: null,
             text: null,
-            socket:io("http://localhost:8181")
+            socket:io()
         }
     },
     created() {
@@ -54,24 +54,10 @@ export default {
 }
 </script>
 
-<style scoped>
-/*#app {*/
-/*  font-family: 'Avenir', Helvetica, Arial, sans-serif;*/
-/*  -webkit-font-smoothing: antialiased;*/
-/*  -moz-osx-font-smoothing: grayscale;*/
-/*  color: #2c3e50;*/
-/*  margin-top: 60px;*/
-/*}*/
+<style >
+@import url("~@coreui/coreui/dist/css/coreui.min.css");
+@import url("~@coreui/icons/css/all.min.css");
+@import url("~sweetalert2/dist/sweetalert2.min.css");
 
-/*.app-container {*/
-/*  text-align: center;*/
-/*}*/
 
-/*body #app .p-button {*/
-/*  margin-left: .2em;*/
-/*}*/
-
-/*form {*/
-/*  margin-top: 2em;*/
-/*}*/
 </style>

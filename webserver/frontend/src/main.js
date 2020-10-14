@@ -3,13 +3,8 @@ import App from './App.vue';
 import router from './router/router';
 import { createStore } from 'vuex'
 import VueScrollTo from 'vue-scrollto'
-
-
-
-import "@coreui/coreui/dist/js/coreui.bundle.min.js"
-import "@coreui/coreui/dist/css/coreui.min.css";
-import "@coreui/icons/css/all.min.css";
-import 'sweetalert2/dist/sweetalert2.min.css';
+import InlineSvg from 'vue-inline-svg';
+import "@coreui/coreui/dist/js/coreui.bundle.min.js";
 
 const app = createApp(App);
 const store = createStore({
@@ -29,8 +24,9 @@ const store = createStore({
         }
     }
 })
+app.component('inline-svg', InlineSvg);
 
-app.use(VueScrollTo)
-app.use(router)
-app.use(store)
-app.mount('body')
+app.use(VueScrollTo);
+app.use(router);
+app.use(store);
+app.mount('body');

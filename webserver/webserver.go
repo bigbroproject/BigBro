@@ -80,7 +80,7 @@ func NewWebServer(serverConfPath string) *WebServer {
 	// Register REST
 
 	staticGroup := router.Group("/dashboard")
-	staticGroup.Static("/", "./webserver/www/")
+	staticGroup.Static("/", "./www")
 
 	apiGroup := router.Group("/api")
 	apiGroup.GET("/services", func(context *gin.Context) { getServicesList(context, &ws) })

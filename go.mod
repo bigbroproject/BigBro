@@ -13,7 +13,11 @@ require (
 	github.com/googollee/go-socket.io v1.4.4
 	github.com/gorilla/websocket v1.4.2 // indirect
 	github.com/jaypipes/ghw v0.6.1
+	github.com/jessevdk/go-assets v0.0.0-20160921144138-4f4301a06e15
+	github.com/jessevdk/go-assets-builder v0.0.0-20130903091706-b8483521738f // indirect
 	github.com/json-iterator/go v1.1.10 // indirect
+	github.com/knadh/stuffbin v1.1.0 // indirect
+	github.com/markbates/pkger v0.17.1
 	github.com/mitchellh/go-homedir v1.1.0 // indirect
 	github.com/modern-go/concurrent v0.0.0-20180306012644-bacd9c7ef1dd // indirect
 	github.com/modern-go/reflect2 v1.0.1 // indirect
