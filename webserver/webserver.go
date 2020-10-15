@@ -12,6 +12,9 @@ import (
 	"log"
 	"net/http"
 	"strconv"
+	"github.com/rakyll/statik/fs"
+
+	_ "github.com/bigbroproject/bigbro/webserver/statik"
 )
 
 const (
@@ -78,9 +81,13 @@ func NewWebServer(serverConfPath string) *WebServer {
 	}
 
 	// Register REST
+	statikFS, err := fs.New()
+	if err != nil {
+		log.Fatal(err)
+	}
 
 	staticGroup := router.Group("/dashboard")
-	staticGroup.Static("/", "./www")
+	staticGroup.StaticFS("/", statikFS)
 
 	apiGroup := router.Group("/api")
 	apiGroup.GET("/services", func(context *gin.Context) { getServicesList(context, &ws) })
