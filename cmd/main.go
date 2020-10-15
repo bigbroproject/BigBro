@@ -6,11 +6,19 @@ import (
 	"github.com/bigbroproject/bigbro/webserver/responsehandler"
 	"github.com/bigbroproject/bigbrocore/core"
 	"github.com/bigbroproject/bigbrocore/responsehandlers"
+	"github.com/bigbroproject/bigbrocore/utilities"
+	"github.com/fatih/color"
+	"log"
+	"os"
 )
 
 func main() {
 
 	//log.SetFlags(log.LstdFlags | log.Lshortfile)
+	errEnv := os.Setenv("GHW_DISABLE_WARNINGS", "1")
+	if errEnv != nil{
+		log.Printf("[%s] %s", utilities.CreateColorString("Warning",color.FgHiYellow), errEnv)
+	}
 	system.PrintSystemInfo()
 	ws := webserver.NewWebServer("config/serverconfig.yml")
 	ws.Start()

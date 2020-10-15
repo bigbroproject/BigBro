@@ -1,6 +1,6 @@
 import axios from 'axios'
 import SystemInformation from "../models/SystemInformation";
-const BACKEND_SERVER = "http://localhost:8181"
+const BACKEND_SERVER = ""
 
 export default class SystemService {
 

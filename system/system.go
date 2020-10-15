@@ -56,6 +56,7 @@ type SystemInfo struct {
 func PrintSystemInfo() {
 	sysInfo, err := GetSystemInfo()
 	if err != nil {
+		log.Printf("[%s] %s \n", utilities.CreateColorString("Error", color.FgHiRed), err)
 		return
 	}
 
@@ -80,32 +81,34 @@ func GetSystemInfo() (SystemInfo, error) {
 	c, err := cpu.Info()
 
 	if err != nil {
-		log.Fatalln(err)
+		log.Printf("[%s] %s \n", utilities.CreateColorString("Error", color.FgHiRed), err)
 		return SystemInfo{}, err
 	}
 
 	h, err := host.Info()
 	if err != nil {
-		log.Fatalln(err)
+		log.Printf("[%s] %s \n", utilities.CreateColorString("Error", color.FgHiRed), err)
 		return SystemInfo{}, err
 	}
 
 	p, err := cpu.Percent(time.Millisecond*100, false)
 	if err != nil {
-		log.Fatalln(err)
+		log.Printf("[%s] %s \n", utilities.CreateColorString("Error", color.FgHiRed), err)
 		return SystemInfo{}, err
 	}
 
 	v, err := mem.VirtualMemory()
 	if err != nil {
-		log.Fatalln(err)
+		log.Printf("[%s] %s \n", utilities.CreateColorString("Error", color.FgHiRed), err)
 		return SystemInfo{}, err
 	}
 
+	_gpu := true
 	gpu, err := ghw.GPU()
 	if err != nil {
-		log.Fatalln(err)
-		return SystemInfo{}, err
+		log.Printf("[%s] %s \n", utilities.CreateColorString("Error", color.FgHiRed), err)
+		_gpu = false
+		//return SystemInfo{}, err
 	}
 
 	_connected := false
@@ -125,10 +128,13 @@ func GetSystemInfo() (SystemInfo, error) {
 		Vendor: "",
 	}
 
-	if len(gpu.GraphicsCards) > 0 {
+
+	if _gpu && len(gpu.GraphicsCards) > 0 && gpu.GraphicsCards[0].DeviceInfo != nil{
 		gpuInf.Name = gpu.GraphicsCards[0].DeviceInfo.Product.Name
 		gpuInf.Vendor = gpu.GraphicsCards[0].DeviceInfo.Vendor.Name
 	}
+
+
 
 	systemInfo := SystemInfo{
 		Host: HostInfo{
@@ -155,6 +161,8 @@ func GetSystemInfo() (SystemInfo, error) {
 			PublicIP:          publicIp,
 		},
 	}
+
+
 
 	return systemInfo, nil
 }

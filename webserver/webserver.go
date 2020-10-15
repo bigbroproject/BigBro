@@ -6,6 +6,8 @@ import (
 	"github.com/bigbroproject/bigbro/models/data"
 	"github.com/bigbroproject/bigbro/system"
 	"github.com/bigbroproject/bigbrocore/models/response"
+	"github.com/bigbroproject/bigbrocore/utilities"
+	"github.com/fatih/color"
 	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
 	socketio "github.com/googollee/go-socket.io"
@@ -103,9 +105,11 @@ func NewWebServer(serverConfPath string) *WebServer {
 
 func (ws *WebServer) Start() {
 	go func() {
+		log.Printf("[%s] %s", utilities.CreateColorString("Web Panel",color.FgHiCyan), "avaiable on port:"+ strconv.Itoa(ws.Port))
 		err := ws.Router.Run(ws.Address + ":" + strconv.Itoa(ws.Port))
 		log.Fatal(err.Error())
 	}()
+
 
 	go func() {
 		for {
@@ -185,7 +189,7 @@ func newServerSocket() *socketio.Server {
 	serverSocket.OnConnect("/", func(s socketio.Conn) error {
 		s.Join(ROOM_SERVICES_LISTENERS)
 		s.SetContext("")
-		fmt.Println("connected:", serverSocket.Count())
+		//fmt.Println("connected:", serverSocket.Count())
 		return nil
 	})
 
@@ -200,8 +204,8 @@ func newServerSocket() *socketio.Server {
 
 	serverSocket.OnDisconnect("/", func(s socketio.Conn, reason string) {
 		s.Close()
-		fmt.Println("closed", reason)
-		fmt.Println("connected remain:", serverSocket.Count())
+		//fmt.Println("closed", reason)
+		//fmt.Println("connected remain:", serverSocket.Count())
 	})
 
 	return serverSocket

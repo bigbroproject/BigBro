@@ -14,10 +14,15 @@ export default class SystemInformation {
             usage: Math.round(cpuInfo.Usage)
         };
 
-        this.gpu = {
-            name : gpuInfo.Name,
-            vendor : gpuInfo.Vendor
-        };
+        if(gpuInfo){
+            this.gpu = {
+                name : gpuInfo.Name,
+                vendor : gpuInfo.Vendor
+            };
+        } else {
+            this.gpu = null;
+        }
+
 
         this.memory = {
             total : memoryInfo.Total,

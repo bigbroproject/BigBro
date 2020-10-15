@@ -117,7 +117,10 @@ cd bigbro && make install-dep
 After the installation of dependencies, you can proceed to build BigBro:
 
 ```bash
-make build
+make build-x64
+make build-x86
+make build-arm
+make build-arm-7
 ```
 If there are any errors you can find the built solution into the new dir bin or you can install automatically the solution in your system with install command (BigBro will be installed in your home):
 

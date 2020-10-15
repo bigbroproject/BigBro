@@ -26,7 +26,8 @@ build-embedded:
 	@mkdir -p bin
 	@mkdir -p bin/config
 	@echo -e "\e[96mBuilding \e[93mBigBro\e[39m"
-	@go build -o bin/bigbro_$(GOARCH)$(SUFFIX) cmd/main.go &>/dev/null
+	@export GHW_DISABLE_WARNINGS=1
+	@go build -o bin/bigbro_$(GOARCH)$(SUFFIX) cmd/main.go 1>/dev/null
 	@cp -R config bin/
 	@cd bin/config && rm config.yml && touch config.yml
 	@echo -e "\e[96mPacking the \e[91mzip file\e[39m"

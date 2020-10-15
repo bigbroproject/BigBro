@@ -45,7 +45,7 @@
                                             <template v-if="systemInfo.gpu">
                                                 {{ systemInfo.gpu.name }} ({{ systemInfo.gpu.vendor }})
                                             </template>
-                                            <template v-else="systemInfo.gpu">
+                                            <template v-else>
                                                 No videocard installed
                                             </template>
                                         </div>

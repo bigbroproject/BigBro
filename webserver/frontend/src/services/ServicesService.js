@@ -1,6 +1,6 @@
 import axios from 'axios'
 import {ServiceData} from "../models/ServiceData"
-const BACKEND_SERVER = "http://localhost:8181"
+const BACKEND_SERVER = ""
 
 export default class SystemService {
 
