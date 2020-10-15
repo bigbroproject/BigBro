@@ -7,11 +7,12 @@
 [![GitHub go.mod Go version of a Go module](https://img.shields.io/github/go-mod/go-version/bigbroproject/bigbrocore.svg)](https://github.com/bigbroproject/bigbrocore)
 [![GitHub Release](https://img.shields.io/github/release/bigbroproject/bigbro.svg?style=flat)]()  
 
-An extensible monitoring tool for user defined services and protocols, all wrote in GoLang and UI with VueJS 3 made with [BigBro core](http://github.com/bigbroproject/bigbrocore).
+An extensible monitoring tool for user defined services and protocols, all wrote in GoLang and UI with VueJS 3, made with [BigBro core](http://github.com/bigbroproject/bigbrocore).
 
 ### Project status
 * This project is in **BETA stage**
 * Go version : **1.15**
+* Vue version : **3.0**
 * BigBro core version: [![GitHub Release](https://img.shields.io/github/release/bigbroproject/bigbrocore.svg?style=flat)]()  
 
 ## Introduction
