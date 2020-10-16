@@ -7,7 +7,7 @@
 [![GitHub go.mod Go version of a Go module](https://img.shields.io/github/go-mod/go-version/bigbroproject/bigbrocore.svg)](https://github.com/bigbroproject/bigbrocore)
 [![GitHub Release](https://img.shields.io/github/release/bigbroproject/bigbro.svg?style=flat)]()  
 
-An extensible monitoring tool for user defined services and protocols, all wrote in GoLang and UI with VueJS 3, made with [BigBro core](http://github.com/bigbroproject/bigbrocore).
+An extensible monitoring tool for user defined services and protocols, all wrote in GoLang and VueJS 3, made with [BigBro core](http://github.com/bigbroproject/bigbrocore).
 
 ### Project status
 * This project is in **BETA stage**
@@ -100,10 +100,11 @@ Basically BigBro can be downloaded from releases section with a pre-compiled bin
 ### From Source Code
 
 #### Requirements
+- Linux Debian or RHEL distribution
 - NodeJS >= v12.10.1 (it is used to compile the user interface)
 - Go Version >= v1.15 (developed with this version)
+- $GOPATH variable set and included in $PATH ( export PATH=$PATH:$GO:$GOPATH/bin )
 - Git installed
-- Linux Debian or RHEL distribution
 
 Firstly, before the usage of this library you must clone this repository:
 ```bash
@@ -130,7 +131,7 @@ make install
 
 
 #### Customisation of the code
-Before the build phse you can edit the main code, registering new protocols or handlers:
+Before the build phase you can edit the main code, registering new protocols or handlers:
 
 ```go
 package main

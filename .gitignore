@@ -1,4 +1,5 @@
 .idea
 webserver/www
 webserver/statik
+webserver/frontend/package-lock.json
 bin
