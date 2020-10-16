@@ -3,7 +3,7 @@ module github.com/bigbroproject/bigbro
 go 1.15
 
 require (
-	github.com/bigbroproject/bigbrocore v0.0.5
+	github.com/bigbroproject/bigbrocore v0.0.6
 	github.com/fatih/color v1.9.0
 	github.com/gin-contrib/cors v1.3.1
 	github.com/gin-gonic/gin v1.6.3
@@ -23,7 +23,7 @@ require (
 	github.com/stretchr/testify v1.6.1 // indirect
 	github.com/ugorji/go v1.1.12 // indirect
 	golang.org/x/crypto v0.0.0-20201012173705-84dcc777aaee // indirect
-	golang.org/x/sys v0.0.0-20201015000850-e3ed0017c211 // indirect
+	golang.org/x/sys v0.0.0-20201016160150-f659759dc4ca // indirect
 	golang.org/x/xerrors v0.0.0-20200804184101-5ec99f83aff1 // indirect
 	google.golang.org/protobuf v1.25.0 // indirect
 	gopkg.in/yaml.v2 v2.3.0

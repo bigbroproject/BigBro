@@ -34,6 +34,12 @@ func main() {
 	//responsehandlers.RegisterResponseHandlerInterface(&regResponseHandlerInterfaces, "console", responsehandlers.ConsoleHandler{})
 	responsehandlers.RegisterResponseHandlerInterface(&regResponseHandlerInterfaces, "consoleMemory", responsehandlers.ConsoleHandlerWithMemory{})
 
+	//go func() {
+	//	for  {
+	//		fmt.Println("====== GoRoutine "+strconv.Itoa(runtime.NumGoroutine()))
+	//		time.Sleep(time.Second * 5)
+	//	}
+	//}()
 	// Start monitoring
 	core.Start(regProtocolInterfaces, regResponseHandlerInterfaces)
 
