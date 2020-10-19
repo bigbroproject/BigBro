@@ -1,7 +1,9 @@
-
 install-dep:
 	@go get -u github.com/rakyll/statik
 	@mkdir -p "webserver/www"
+	@if [[ ! -e webserver/www/index.html ]]; then\
+    	echo "BigBro - Need to do \"make build\" or similar build (for other platforms) before using GUI!" > webserver/www/index.html;\
+	fi
 	@cd webserver && statik -src=www -f 1>/dev/null
 	@go get -u -v all
 	@cd webserver/frontend && npm install
