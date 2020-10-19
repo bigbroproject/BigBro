@@ -1,8 +1,9 @@
 
 install-dep:
 	@go get -u github.com/rakyll/statik
+	@mkdir -p "webserver/www"
 	@cd webserver && statik -src=www -f 1>/dev/null
-	@go get -u -v all ./...
+	@go get -u -v all
 	@cd webserver/frontend && npm install
 build:
 	@echo -e "\e[96mBuilding for \e[95m${SUFFIX}\e[39m"
