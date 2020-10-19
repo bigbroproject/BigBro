@@ -1,7 +1,7 @@
 <img src="readme/bigbro-logo.svg" width="350">
 
 # BigBro 
-[![Build Status](https://travis-ci.org/bigbroproject/bigbrocore.svg?branch=master)](https://travis-ci.org/bigbroproject/bigbrocore) [![MIT License](https://img.shields.io/apm/l/atomic-design-ui.svg?)](https://https://github.com/bigbroproject/bigbrocore/master/LICENSE)
+[![Build Status](https://travis-ci.com/bigbroproject/BigBro.svg?branch=master)](https://travis-ci.com/bigbroproject/BigBro) [![MIT License](https://img.shields.io/apm/l/atomic-design-ui.svg?)](https://https://github.com/bigbroproject/bigbrocore/master/LICENSE)
 [![made-with-Go](https://img.shields.io/badge/Made%20with-Go-1f425f.svg)](https://golang.org)
 [![made-with-Go](https://img.shields.io/badge/Made%20with-Vue%203-%2341b883)](https://https://v3.vuejs.org/)
 [![GitHub go.mod Go version of a Go module](https://img.shields.io/github/go-mod/go-version/bigbroproject/bigbrocore.svg)](https://github.com/bigbroproject/bigbrocore)
@@ -30,7 +30,7 @@ The entire software is based on one configuration file where it is possible defi
 ## Compatibility
 
 ### Operative Systems
-BigBro was compiled and test on Debian and RHEL Linux distribution families.
+BigBro was compiled and tested on Debian and RHEL Linux distribution families.
 
 ### Hardware
 BigBro was develop to run in any kind of computer or embedded system and was tested on:
@@ -40,7 +40,7 @@ BigBro was develop to run in any kind of computer or embedded system and was tes
 - Orange Pi Zero
 
 ## Defaults Protocols implemented
-The default protocols are based on default protocols from BigBro Core, nevertheless new or custom protocols can be implemeted in BigBro as in BigBro Core.
+The default protocols are based on default protocols from BigBro Core, nevertheless new or custom protocols can be implemented in BigBro as in BigBro Core.
 - http
 - https (with ssl)
 - icmp
@@ -100,7 +100,7 @@ Basically BigBro can be downloaded from releases section with a pre-compiled bin
 ### From Source Code
 
 #### Requirements
-- Linux Debian or RHEL distribution
+- Debian or RHEL Linux distribution family
 - NodeJS >= v12.10.1 (it is used to compile the user interface)
 - Go Version >= v1.15 (developed with this version)
 - $GOPATH variable set and included in $PATH ( export PATH=$PATH:$GO:$GOPATH/bin )
@@ -118,15 +118,12 @@ cd bigbro && make install-dep
 After the installation of dependencies, you can proceed to build BigBro:
 
 ```bash
-make build-x64
-make build-x86
-make build-arm
-make build-arm-7
-```
-If there are any errors you can find the built solution into the new dir bin or you can install automatically the solution in your system with install command (BigBro will be installed in your home):
-
-```bash
-make install
+make build          #for your architecture
+make build-x64      #for 64 bit architecture
+make build-x86      #for 32 bit architecture
+make build-arm      #for ARM 7 architecture
+make build-arm5     #for ARM 5 architecture
+make build-all      #to build all solutions
 ```
 
 
@@ -167,7 +164,7 @@ func main() {
 
 }
 ```
-In this example we `Initialize` the entire module with a given configuration file path (you can mange this as a first input in your command line, for instance). 
+In this example we `Initialize` the entire module with a given configuration file path (you can manage this as a first input in your command line, for instance). 
 Secondly, you must define and register a ResponseHandler to manage the Responses from service checks (otherwise you cannot log or see anything) and then register a custom protocol, if needed.
 
 Finally, you can over your project main with the `Start` of the module. 

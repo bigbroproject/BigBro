@@ -9,6 +9,7 @@ type ServerConfig struct {
 	Port         int      `yaml:"port"`
 	Address      string   `yaml:"address"`
 	AllowOrigins []string `yaml:"allowOrigins"`
+	IntervalSystemInfoMs int64 `yaml:"intervalSystemInfoMs"`
 	SSL          bool
 }
 

@@ -116,6 +116,7 @@
 <script>
 import SystemService from "../services/SystemService";
 
+const TIME_INTERVAL_SYSTEM = 20000;
 export default {
     name: "SystemStats",
     data() {
@@ -136,7 +137,7 @@ export default {
         this.getSystemInfo();
         this.systemInfoInterval = setInterval(() => {
             this.getSystemInfo();
-        }, 5000);
+        }, TIME_INTERVAL_SYSTEM);
 
     },
     methods: {

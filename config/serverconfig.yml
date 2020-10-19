@@ -3,3 +3,4 @@ address: ""
 allowOrigins:
   - "http://localhost:8080"
   - "http://localhost:8181"
+intervalSystemInfoMs: 20000

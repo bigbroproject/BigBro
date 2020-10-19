@@ -15,6 +15,7 @@ import (
 	"net/http"
 	"strconv"
 	"github.com/rakyll/statik/fs"
+	"time"
 
 	_ "github.com/bigbroproject/bigbro/webserver/statik"
 )
@@ -26,6 +27,10 @@ const (
 const (
 	EVENT_SERVICE_CHANGE = "serviceChange"
 )
+
+var serverConfig *config.ServerConfig
+var lastSystemInfo system.SystemInfo
+var lastTsSystemInfo time.Time
 
 type WebServer struct {
 	Address      string
@@ -40,9 +45,13 @@ type WebServer struct {
 func NewWebServer(serverConfPath string) *WebServer {
 
 	sConf, err := config.ServerConfigFromFile(serverConfPath)
+
 	if err != nil {
 		log.Fatal(err.Error())
 	}
+
+	serverConfig = sConf
+
 
 	serverSocket := newServerSocket()
 	go func() {
@@ -60,7 +69,7 @@ func NewWebServer(serverConfPath string) *WebServer {
 	router := gin.New() // gin.Default()
 
 	configCors := cors.DefaultConfig()
-	configCors.AllowOrigins = sConf.AllowOrigins
+	configCors.AllowOrigins = serverConfig.AllowOrigins
 	configCors.AllowCredentials = true
 	router.Use(cors.New(configCors))
 	//router.Use(GinMiddleware("localhost:8080"))
@@ -73,14 +82,15 @@ func NewWebServer(serverConfPath string) *WebServer {
 	serviceMap := make(map[string]data.ServiceData, 0)
 
 	ws := WebServer{
-		Address:      sConf.Address,
-		Port:         sConf.Port,
-		SSL:          sConf.SSL,
+		Address:      serverConfig.Address,
+		Port:         serverConfig.Port,
+		SSL:          serverConfig.SSL,
 		Router:       router,
 		ServiceMap:   &serviceMap,
 		InputChannel: inputChannel,
 		ServerSocket: serverSocket,
 	}
+	lastSystemInfo, err = system.GetSystemInfo()
 
 	// Register REST
 	statikFS, err := fs.New()
@@ -100,6 +110,11 @@ func NewWebServer(serverConfPath string) *WebServer {
 
 	router.GET("/", func(context *gin.Context) { context.Redirect(http.StatusMovedPermanently, "/dashboard") })
 
+	lastSystemInfo, err = system.GetSystemInfo()
+	if err != nil {
+		log.Fatal(err)
+	}
+	lastTsSystemInfo = time.Now()
 	return &ws
 }
 
@@ -189,7 +204,6 @@ func newServerSocket() *socketio.Server {
 	serverSocket.OnConnect("/", func(s socketio.Conn) error {
 		s.Join(ROOM_SERVICES_LISTENERS)
 		s.SetContext("")
-		//fmt.Println("connected:", serverSocket.Count())
 		return nil
 	})
 
@@ -216,12 +230,20 @@ func getServicesList(context *gin.Context, ws *WebServer) {
 	context.JSON(http.StatusOK, ws.ServiceMap)
 }
 
+
 func getSystemInformation(context *gin.Context) {
-	sysInfo, err := system.GetSystemInfo()
+
+	var err error
+	timeNow := time.Now()
+
+	if timeNow.After(lastTsSystemInfo.Add(time.Millisecond * time.Duration(serverConfig.IntervalSystemInfoMs) )) {
+		lastSystemInfo, err = system.GetSystemInfo()
+		lastTsSystemInfo = timeNow
+	}
 	if err != nil {
 		context.JSON(http.StatusInternalServerError, err)
 	} else {
-		context.JSON(http.StatusOK, sysInfo)
+		context.JSON(http.StatusOK, lastSystemInfo)
 	}
 }
 

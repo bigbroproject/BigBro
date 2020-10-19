@@ -43,21 +43,17 @@ build-x64:
 build-x86:
 	@make build GOOS=linux GOARCH=386 SUFFIX="_x86"
 build-arm:
-	@make build-embedded GOOS=linux GOARCH=arm GOARM=5 SUFFIX="_5"
-build-arm7:
 	@make build-embedded GOOS=linux GOARCH=arm GOARM=7 SUFFIX="_7"
+build-arm5:
+	@make build-embedded GOOS=linux GOARCH=arm GOARM=5 SUFFIX="_5"
 build-all:
 	@make build-x64
 	@make build-x86
 	@make build-arm
-	@make build-arm7
-install:
-	@mkdir -p /home/${USER}/bigbro
-	@cp -R bin/ /home/${USER}/bigbro/
-	@cp -R config /home/${USER}/bigbro/config
-	@chmod +x /home/${USER}/bigbro
-	@#ln -s /home/${USER}/bigbro/bigbro /usr/local/bin/bigbro
-
-
-
-
+	@make build-arm5
+build-ui:
+	@echo -e "\e[96mBuilding the \e[94muser interface\e[39m"
+	@cd webserver/frontend && npm run build 1>/dev/null
+	@echo -e "\e[96mPacking all \e[91massets\e[39m"
+	@cd webserver && statik -src=www -f 1>/dev/null
+	@echo -e "\e[92mUI Build Complete\e[39m"
